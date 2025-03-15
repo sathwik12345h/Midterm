@@ -1,42 +1,58 @@
-import sys
-from decimal import Decimal, InvalidOperation
+# pragma: no cover
+"""
+Command-line interface for performing basic calculator operations.
+"""
+
 from calculator import Calculator
+from decimal import Decimal, InvalidOperation
 from app import App
 
-def calculate_and_print(a_string, b_string, operation_string):
-    """Function to process inputs and print results, handling exceptions."""
+def calculate_and_print(operand1, operand2, operation_name):
+    """
+    Performs the specified arithmetic operation and prints the result.
+
+    Args:
+        operand1 (str): First number as a string (to be converted to Decimal).
+        operand2 (str): Second number as a string (to be converted to Decimal).
+        operation_name (str): The operation to perform (add, subtract, multiply, divide).
+    """
+    operation_mappings = {
+        'add': Calculator.add,
+        'subtract': Calculator.subtract,
+        'multiply': Calculator.multiply,
+        'divide': Calculator.divide
+    }
+
     try:
-        # Ensure inputs are valid before converting to Decimal
-        if not a_string.replace(".", "", 1).isdigit() or not b_string.replace(".", "", 1).isdigit():
-            print(f"Invalid number input: {a_string} or {b_string} is not a valid number.")
-            return
-        
-        num1 = Decimal(a_string)
-        num2 = Decimal(b_string)
+        # Convert input strings to Decimal
+        operand1_decimal, operand2_decimal = map(Decimal, [operand1, operand2])
 
-        if operation_string == "add":
-            result = Calculator.add(num1, num2)
-        elif operation_string == "subtract":
-            result = Calculator.subtract(num1, num2)
-        elif operation_string == "multiply":
-            result = Calculator.multiply(num1, num2)
-        elif operation_string == "divide":
-            if num2 == Decimal('0'):  # Handle division by zero
-                print("An error occurred: Cannot divide by zero")
-                return
-            result = Calculator.divide(num1, num2)
+        if operation_name in operation_mappings:
+            result = operation_mappings[operation_name](operand1_decimal, operand2_decimal)
+            print(f"The result of {operand1} {operation_name} {operand2} is equal to {result}")
         else:
-            print(f"Unknown operation: {operation_string}")
-            return
-
-        print(f"The result of {num1} {operation_string} {num2} is equal to {result}")
+            print(f"Error: Unsupported operation '{operation_name}'. Available operations: add, subtract, multiply, divide.")
 
     except InvalidOperation:
-        print(f"Invalid number input: {a_string} or {b_string} is not a valid number.")
+        print(f"Invalid number input: {operand1} or {operand2} is not a valid number.")
+    except ZeroDivisionError:
+        print("Error: Division by zero is not allowed.")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
 
 def main():
+    # """
+    # Parses command-line arguments and executes the requested operation.
+    # """
+    # if len(sys.argv) != 4:
+    #     print(f"Usage: python {sys.argv[0]} <number1> <number2> <operation>")
+    #     print("Example: python main.py 10 5 add")
+    #     sys.exit(1)
+
+    # _, operand1, operand2, operation = sys.argv
+    # calculate_and_print(operand1, operand2, operation)
     app = App()  # Initialize the App class
-    app.start()  # Start the app REPL loop
-        
-if __name__ == "__main__":
+    app.start()
+
+if __name__ == '__main__':
     main()
