@@ -1,23 +1,23 @@
-from decimal import Decimal  # Importing Decimal for precise floating-point arithmetic
+"""
+Module providing basic arithmetic operations.
+"""
 
-def add(a: Decimal, b: Decimal) -> Decimal:
-    """Returns the sum of two Decimal numbers."""
-    return a + b
+from decimal import Decimal
 
-def subtract(a: Decimal, b: Decimal) -> Decimal:
-    """Returns the difference between two Decimal numbers."""
-    return a - b
+def add(operand1: Decimal, operand2: Decimal) -> Decimal:
+    """Returns the sum of two operands."""
+    return operand1 + operand2
 
-def multiply(a: Decimal, b: Decimal) -> Decimal:
-    """Returns the product of two Decimal numbers."""
-    return a * b
+def subtract(operand1: Decimal, operand2: Decimal) -> Decimal:
+    """Returns the difference of two operands."""
+    return operand1 - operand2
 
-def divide(a: Decimal, b: Decimal) -> Decimal:
-    """Returns the quotient of two Decimal numbers.
-    
-    Raises:
-        ValueError: If an attempt is made to divide by zero.
-    """
-    if b == Decimal('0'):  # Ensuring proper comparison with Decimal type
-        raise ValueError("Cannot divide by zero")  # Handling divide-by-zero error
-    return a / b
+def multiply(operand1: Decimal, operand2: Decimal) -> Decimal:
+    """Returns the product of two operands."""
+    return operand1 * operand2
+
+def divide(operand1: Decimal, operand2: Decimal) -> Decimal:
+    """Returns the quotient of two operands. Raises an error if dividing by zero."""
+    if operand2 == 0:
+        raise ValueError("Cannot divide by zero.")
+    return operand1 / operand2

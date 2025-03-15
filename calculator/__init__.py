@@ -1,33 +1,42 @@
+"""
+Calculator module that provides arithmetic operations and history management.
+"""
+
 from decimal import Decimal
 from typing import Callable
-from calculator.calculation import Calculation
-from calculator.calculations import Calculations
+
+from calculator.calculation_history import Calculations
 from calculator.operations import add, subtract, multiply, divide
+from calculator.calculation import Calculation
 
 class Calculator:
-    @staticmethod
-    def _perform_operation(num1: Decimal, num2: Decimal, operation: Callable[[Decimal, Decimal], Decimal]) -> Decimal:
-        """Helper method to create a Calculation object and execute it."""
-        calculation = Calculation.create(num1, num2, operation)  # Create a calculation object
-        Calculations.add_calculation(calculation)  # Store in history
-        return calculation.perform()  # Execute the operation and return result
+    """Handles core calculator operations and maintains history."""
 
     @staticmethod
-    def add(num1: Decimal, num2: Decimal) -> Decimal:
-        """Performs addition of two Decimal numbers and stores the result in history."""
-        return Calculator._perform_operation(num1, num2, add)
+    def _perform_operation(
+        operand1: Decimal, operand2: Decimal, operation: Callable[[Decimal, Decimal], Decimal]
+    ) -> Decimal:
+        """Executes an arithmetic operation and stores it in history."""
+        calculation = Calculation.create(operand1, operand2, operation)
+        Calculations.add_calculation(calculation)
+        return calculation.perform()
 
     @staticmethod
-    def subtract(num1: Decimal, num2: Decimal) -> Decimal:
-        """Performs subtraction of two Decimal numbers and stores the result in history."""
-        return Calculator._perform_operation(num1, num2, subtract)
+    def add(operand1: Decimal, operand2: Decimal) -> Decimal:
+        """Returns the sum of two operands."""
+        return Calculator._perform_operation(operand1, operand2, add)
 
     @staticmethod
-    def multiply(num1: Decimal, num2: Decimal) -> Decimal:
-        """Performs multiplication of two Decimal numbers and stores the result in history."""
-        return Calculator._perform_operation(num1, num2, multiply)
+    def subtract(operand1: Decimal, operand2: Decimal) -> Decimal:
+        """Returns the difference between two operands."""
+        return Calculator._perform_operation(operand1, operand2, subtract)
 
     @staticmethod
-    def divide(num1: Decimal, num2: Decimal) -> Decimal:
-        """Performs division of two Decimal numbers and stores the result in history."""
-        return Calculator._perform_operation(num1, num2, divide)
+    def multiply(operand1: Decimal, operand2: Decimal) -> Decimal:
+        """Returns the product of two operands."""
+        return Calculator._perform_operation(operand1, operand2, multiply)
+
+    @staticmethod
+    def divide(operand1: Decimal, operand2: Decimal) -> Decimal:
+        """Returns the quotient of two operands. Raises an error if dividing by zero."""
+        return Calculator._perform_operation(operand1, operand2, divide)
