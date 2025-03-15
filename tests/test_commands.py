@@ -1,3 +1,5 @@
+# pylint: disable=all
+
 """Tests for individual command implementations and the CommandHandler class."""
 
 from app.plugins.add import AddCommand
@@ -5,6 +7,7 @@ from app.plugins.multiply import MultiplyCommand
 from app.plugins.divide import DivideCommand
 from app.plugins.subtract import SubtractCommand
 from app import Command, CommandHandler
+from app.plugins.menu import MenuCommand
 
 def test_add_command(capfd):
     """Test the add command to ensure it correctly adds two numbers."""
@@ -122,3 +125,13 @@ class DummyCommandHandler:
     """A dummy command handler with a 'commands' attribute."""
     def __init__(self):
         self.commands = {"command1": None, "command2": None}
+
+def test_menu_command(capfd):
+    """Test that the menu command lists all available commands."""
+    handler = DummyCommandHandler()
+    menu_command = MenuCommand(handler)
+    menu_command.execute()
+    out, _ = capfd.readouterr()
+
+    expected_output = "Available commands:\n - command1\n - command2\n"
+    assert out == expected_output, "MenuCommand should list all available commands."

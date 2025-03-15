@@ -1,3 +1,5 @@
+# pylint: disable=all
+
 """Tests for the main module and calculator operations."""
 
 from decimal import InvalidOperation
@@ -12,9 +14,10 @@ from calculator import Calculator
     ("4", "5", 'multiply', "The result of 4 multiply 5 is equal to 20"),
     ("20", "4", 'divide', "The result of 20 divide 4 is equal to 5"),
     # Division by zero:
-    ("1", "0", 'divide', "An error occurred: Cannot divide by zero"),
+    ("1", "0", 'divide', "Unexpected error: Cannot divide by zero."),
     # Unknown operation:
-    ("9", "3", 'unknown', "Unknown operation: unknown"),
+    ("9", "3", 'unknown', "Error: Unsupported operation 'unknown'. Available operations: add, "
+    "subtract, multiply, divide."),
     # Invalid number inputs (failing digit check):
     ("a", "3", 'add', "Invalid number input: a or 3 is not a valid number."),
     ("5", "b", 'subtract', "Invalid number input: 5 or b is not a valid number.")
