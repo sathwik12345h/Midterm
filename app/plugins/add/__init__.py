@@ -16,6 +16,5 @@ class AddCommand(Command):
             logging.info(f"The result of {a} + {b} is {result}")
             print(f"The result of {a} + {b} is {result}")
         except InvalidOperation:
-            logging.error("Invalid input: Please provide valid numbers.")
             print("Invalid input: Please provide valid numbers.")
             

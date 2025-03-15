@@ -1,21 +1,21 @@
 import logging
 from app.commands import Command
-from decimal import Decimal, InvalidOperation
 
 class SubtractCommand(Command):
     def execute(self, *args):
         if len(args) != 2:
-            logging.error("Error: 'Subtract' command requires exactly 2 arguments.")
-            print("Error: 'Subtract' command requires exactly 2 arguments.")
-            return
+            # Raise TypeError when there are insufficient or too many arguments
+            logging.error("Error: 'subtract' command requires exactly 2 arguments.")
+            raise TypeError("Error: 'subtract' command requires exactly 2 arguments.")
 
         try:
-            a = Decimal(args[0])
-            b = Decimal(args[1])
+            a = int(args[0])
+            b = int(args[1])
             result = a - b
             logging.info(f"The result of {a} - {b} is {result}")
             print(f"The result of {a} - {b} is {result}")
-        except InvalidOperation:
-            logging.error("Invalid input: Please provide valid numbers.")
-            print("Invalid input: Please provide valid numbers.")
+        except ValueError:
+            # Raising ValueError for invalid input
+            logging.error("Invalid input: Please provide valid integers.")
+            raise ValueError("Invalid input: Please provide valid integers.")
         
